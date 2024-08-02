@@ -7,33 +7,32 @@
     <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
 </head>
 <body>
+    <img src="https://siteunidavi.s3.sa-east-1.amazonaws.com/2021/9/siteradio/logo-unidavi-site.png" style="height:80px;">
     <h1>Cadastro de Pessoa</h1>
     <form>
         <p>
             <label>Nome: </label>
             <input type="text" id="nome">
-        </p>
-        <p>
-            <label>Telefone: </label>
-            <input type="tel" id="telefone"> 
-        <p>
-            <label>E-mail: </label>
-            <input type="email" id="email"> 
-        </p>
-        <p>
+
             <label>Tipo Pessoa: </label>
             <select>
                 <option value="1">Física</option>
                 <option value="2">Juridica</option>
             </select>
         </p>
+        <hr width="30%">
+        <p>
+            <label>Telefone: </label>
+            <input type="tel" id="telefone"> 
+            <label>E-mail: </label>
+            <input type="email" id="email"> 
+        </p>
+        <hr width="30%">
         <p>
             <label>Endereço: </label>
-            <input type="text" id="endereco"> 
-        </p>
-        <p>
+            <input type="text" id="endereco" size="40px"> 
             <label>UF: </label>
-            <input list="estados">
+            <input list="estados" size="1px">
             <datalist id="estados">
                 <option value="SC">
                 <option value="PR">
@@ -41,7 +40,9 @@
                 <option value="SP">
                 <option value="RJ">
             </datalist>
-        </p>  
+        </p>
+        <hr width="30%">
+        <button type="submit">Enviar</button>  
     </form>
 </body>
 </html>
