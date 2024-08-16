@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <title>Pratica 3</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+</head>
+
+<body>
+    <h1>Pratica 3</h1>
+    <form action="/cadastro.php" method="GET">
+        <fieldset class="dados_pessoais">
+            <legend>Cadastro de Pessoa</legend>
+            <ul>
+                <li>
+                    <label for="nome">Nome: </label>
+                    <input type="text" name="nome" id="nome" maxlength="100" required>
+                </li>
+                <li>
+                    <label for="sobrenome">Sobrenome: </label>
+                    <input type="text" name="sobrenome" id="sobrenome" maxlength="100" required>
+                </li>
+                <li>
+                    <label for="email">E-mail: </label>
+                    <input type="email" name="email" id="email" required>
+                </li>
+                <li>
+                    <label for="data">Data de Nascimento: </label>
+                    <input type="date" name="data" id="data" min="1920-01-01" max="2024-01-01">
+                </li>
+                <li>
+                    <label for="sexo">Sexo: </label>
+                    <input type="radio" id="masc" name="sexo"value="1">
+                    <label for="masc">Masculino</label>
+                    <input type="radio" id="fem" name="sexo" value="2">
+                    <label for="fem">Feminino</label>
+                </li>
+                <li>
+                    <label for="endereco">Endereço: </label>
+                    <input type="text" name="endereco" id="endereco" maxlength="200">
+                </li>
+                <li>
+                    <label for="uf">UF: </label>
+                    <select id="uf" name="uf">
+                        <option value="SC">SC</option>
+                        <option value="PR">PR</option>
+                        <option value="RS">RS</option>
+                        <option value="SP">SP</option>
+                        <option value="RJ">RJ</option>
+                    </select>
+                </li>
+                <li>
+                    <label for="cep">CEP: </label>
+                    <input type="text" name="cep" id="cep" maxlength="10">
+                </li>
+                <li>
+                    <label for="cor">Cor favorita: </label>
+                    <input type="color" name="cor" id="cor">
+                </li>
+            </ul>
+            <input type="submit" value="Submit">
+            <input type="reset" value="Reset">
+        </fieldset>
+    </form>
+</body>
+
+</html>
