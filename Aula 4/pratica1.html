@@ -3,16 +3,18 @@
 
 <head>
     <meta charset='utf-8'>
-    <title>Pratica 3</title>
+    <title>Pratica 1</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href="css/main.css">
 </head>
 
 <body>
-    <h1>Pratica 3</h1>
+    <h1>Pratica 1</h1>
     <form action="/cadastro.php" method="POST">
         <fieldset class="dados_pessoais">
             <legend>Cadastro de Pessoa</legend>
             <ul>
+                <div id="pessoais">
                 <li>
                     <label for="nome">Nome: </label>
                     <input type="text" name="nome" id="nome" maxlength="100" required>
@@ -25,6 +27,8 @@
                     <label for="email">E-mail: </label>
                     <input type="email" name="email" id="email" required>
                 </li>
+            </div>
+            <div class="outros sensiveis">
                 <li>
                     <label for="data">Data de Nascimento: </label>
                     <input type="date" name="data" id="data" min="1920-01-01" max="2024-01-01">
@@ -36,6 +40,8 @@
                     <input type="radio" id="fem" name="sexo" value="2">
                     <label for="fem">Feminino</label>
                 </li>
+            </div>
+            <div class="outros">
                 <li>
                     <label for="endereco">Endereço: </label>
                     <input type="text" name="endereco" id="endereco" maxlength="200">
@@ -54,10 +60,7 @@
                     <label for="cep">CEP: </label>
                     <input type="text" name="cep" id="cep" maxlength="10">
                 </li>
-                <li>
-                    <label for="cor">Cor favorita: </label>
-                    <input type="color" name="cor" id="cor">
-                </li>
+            </div>
             </ul>
             <input type="submit" value="Submit">
             <input type="reset" value="Reset">

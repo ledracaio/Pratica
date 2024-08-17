@@ -1,0 +1,26 @@
+li {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+div {
+    margin-bottom: 0.5cm;
+    padding-left: 2cm;
+}
+
+.dados_pessoais {
+    background-color: rgb(223, 223, 223);
+}
+
+#pessoais {
+    background-color: rgb(43, 167, 245);
+}
+
+.outros {
+    background-color: rgb(153, 153, 153);
+}
+
+.sensiveis {
+    font-style: italic;
+}

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <title>Pratica 2</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href="css/main2.css">
+</head>
+
+<body>
+    <h1>Pratica 2</h1>
+    <form action="/cadastro.php" method="POST">
+        <fieldset id="geral">
+            <legend>Cadastro de Pessoa</legend>
+            <fieldset class="dados">
+                <legend>Dados Pessoais</legend>
+                <div class="container">
+                    <div class="elements">
+                        <label for="nome">Nome: </label>
+                        <input type="text" name="nome" id="nome" maxlength="100" required>
+                    </div>
+                    <div class="elements">
+                        <label for="sobrenome">Sobrenome: </label>
+                        <input type="text" name="sobrenome" id="sobrenome" maxlength="100" required>
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset class="dados">
+                <legend>Dados da Pessoa Física</legend>
+                <div class="container">
+                    <div class="elements">
+                        <label for="data">Data de Nascimento: </label>
+                        <input type="date" name="data" id="data" min="1920-01-01" max="2024-01-01">
+
+                        <div class="elements">
+                            <label for="sexo">Sexo: </label>
+                            <input type="radio" id="masc" name="sexo" value="1">
+                            <label for="masc">Masculino</label>
+                            <input type="radio" id="fem" name="sexo" value="2">
+                            <label for="fem">Feminino</label>
+                        </div>
+                    </div>
+            </fieldset>
+            <fieldset class="dados">
+                <legend>Endereçamento</legend>
+                <div class="container">
+                    <div class="elements">
+                        <label for="endereco">Endereço: </label>
+                        <input type="text" name="endereco" id="endereco" maxlength="200">
+                    </div>
+                    <div class="elements">
+                        <label for="cep">CEP: </label>
+                        <input type="text" name="cep" id="cep" maxlength="10">
+                    </div>
+                    <div class="elements">
+                        <label for="uf">UF: </label>
+                        <select id="uf" name="uf">
+                            <option value="SC">SC</option>
+                            <option value="PR">PR</option>
+                            <option value="RS">RS</option>
+                            <option value="SP">SP</option>
+                            <option value="RJ">RJ</option>
+                        </select>
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset class="dados">
+                <legend>Contatos</legend>
+                <div class="container">
+                    <div class="elements">
+                        <label for="email">E-mail: </label>
+                        <input type="email" name="email" id="email" required>
+                    </div>
+                </div>
+            </fieldset>
+            <div class="container">
+                <input type="submit" value="Submit" class="button">
+                <input type="reset" value="Reset" class="button">
+            </div>
+        </fieldset>
+    </form>
+</body>
+
+</html>

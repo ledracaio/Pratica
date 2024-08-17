@@ -1,0 +1,37 @@
+fieldset#geral {
+    width: 50%;
+    background-color: rgb(189, 202, 216);
+}
+
+.dados {
+    background-color: aliceblue;
+}
+
+.container {
+    margin: 0.2cm 0.5cm;
+}
+
+.elements, .dados {
+    margin: 1mm 0mm;
+}
+
+legend{
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bolder;
+    text-transform: uppercase;
+    background-color: slategray;
+    color: white;
+}
+
+fieldset, legend {
+    border: 1px solid black;
+    border-radius: 2mm;
+    padding: 1mm;
+}
+
+input.button {
+    background-color: slategray;
+    color: white;
+    border-radius: 2mm;
+    padding: 1mm 3mm;
+}
