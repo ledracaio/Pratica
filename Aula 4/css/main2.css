@@ -1,5 +1,5 @@
 fieldset#geral {
-    width: 50%;
+    width: flex;
     background-color: rgb(189, 202, 216);
 }
 
