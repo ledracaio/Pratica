@@ -1,13 +1,24 @@
 function cor(valor) {
     if (valor > 0) {
-        document.getElementById("result").style.backgroundColor = "red";
+        document.getElementById("result").style.backgroundColor = "green";
     }
     else if (valor < 0) {
-        document.getElementById("result").style.backgroundColor = "green";
+        document.getElementById("result").style.backgroundColor = "red";
     }
     else {
         document.getElementById("result").style.backgroundColor = "gray";
     }
+}
+
+function mostra() {
+    document.getElementById("plus").style.display = "inline";
+    document.getElementById("buttonMais").style.display = "none";
+    document.getElementById("buttonMenos").style.display = "inline";
+}
+function apaga() {
+    document.getElementById("plus").style.display = "none";
+    document.getElementById("buttonMenos").style.display = "none";
+    document.getElementById("buttonMais").style.display = "inline";
 }
 
 function soma() {
