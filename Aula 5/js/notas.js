@@ -31,9 +31,14 @@ function totalizaNota() {
     const tbody = table.tBodies[0];
     const headerRow = table.tHead.rows[0];
     const lastColumn = tbody.rows[tbody.rows.length - 1].cells[tbody.rows[0].cells.length - 1];
+
+    const totalHeader = document.getElementById("titulo");
+    const thColuna = document.createElement("th");
+    thColuna.setAttribute("rowspan","2");
+    thColuna.innerHTML = "<b>Total</b>";
+    totalHeader.appendChild(thColuna);
   
     const totalColumn = document.createElement("td");
-    totalColumn.innerHTML = "<b>Total</b>";
   
     for (let row of tbody.rows) {
       let sum = 0;
@@ -51,6 +56,5 @@ function totalizaNota() {
       row.appendChild(totalColumn.cloneNode(true));
       row.lastChild.textContent = average.toFixed(2);
     }
-  
-    headerRow.appendChild(totalColumn);
+
   }
