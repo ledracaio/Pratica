@@ -17,12 +17,18 @@ $dados = [
             border-collapse: collapse;
         }
         th, td {
-            border: 1px solid black;
+            border: 1px solid white;
             padding: 8px;
             text-align: left;
         }
         th {
-            background-color: #f2f2f2;
+            background-color: #90d5ff;
+        }
+        .zebraIm {
+            background-color: #bfe6ff;
+        }
+        .zebraPa {
+            background-color: #d9f1ff;
         }
     </style>
 </head>
@@ -38,10 +44,15 @@ $dados = [
         </thead>
         <tbody>
             <?php
+            $line = 0;
             foreach ($dados as $linha) {
+                $line++;
                 print "<tr>";
                 foreach ($linha as $valor) {
-                    echo "<td>{$valor}</td>";
+                    if($line % 2 == 0)
+                        print "<td class='zebraPa'>{$valor}</td>";
+                    else
+                        print "<td class='zebraIm'>{$valor}</td>";
                 }
                 print "</tr>";
             }
