@@ -1,34 +1,37 @@
 <?php
+function obterValor() {
+    if (isset($_REQUEST['valor'])) {
+        if (is_numeric($_REQUEST['valor'])) {
+            return $_REQUEST['valor'];
+        }
+        throw new Exception("O parâmetro 'valor' deve ser numérico.");        
+    }
+    throw new Exception("O parâmetro 'valor' é obrigatório.");
+}
+
+function obterDesconto() {
+    if (isset($_REQUEST['desconto'])) {
+        if (is_numeric($_REQUEST['desconto'])) {
+            return $_REQUEST['desconto'];
+        }
+        throw new Exception("O parâmetro 'desconto' deve ser numérico.");
+    }
+    throw new Exception("O parâmetro 'desconto' é obrigatório.");
+}
+
 function exibeMensagem($mensagem) {
     echo $mensagem;
 }
 
 function calcularValorFinal($valor, $desconto) {
-    if (!is_numeric($valor) || !is_numeric($desconto)) {
-        throw new Exception("Os parâmetros devem ser numéricos.");
-    }
-
-    $valor = floatval($valor);
-    $desconto = floatval($desconto);
-
-    if ($desconto < 0 || $desconto > 100) {
-        throw new Exception("O desconto deve estar entre 0 e 100.");
-    }
-
-    return $valor - ($valor * ($desconto / 100));
+    return obterValor() - obterDesconto();
 }
 
 try {
-    if (!isset($_REQUEST['Valor']) || !isset($_REQUEST['Desconto'])) {
-        throw new Exception("Os parâmetros 'Valor' e 'Desconto' são obrigatórios.");
-    }
-
-    $valor = $_REQUEST['Valor'];
-    $desconto = $_REQUEST['Desconto'];
+    $valor = obterValor();
+    $desconto = obterDesconto();
     $resultado = calcularValorFinal($valor, $desconto);
 
-    exibeMensagem("Valor Inicial: $valor<br>");
-    exibeMensagem("Desconto: $desconto%<br>");
     exibeMensagem("Valor Final: $resultado");
 
 } catch (Exception $e) {

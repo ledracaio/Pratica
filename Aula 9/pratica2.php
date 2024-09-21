@@ -15,14 +15,13 @@ $pastas = array(
 );
 
 function exibirArvore($array, $nivel = 0) {
-    $recuo = str_repeat("  ", $nivel);
-    
+    $hifens = str_repeat("-", $nivel + 1);
     foreach ($array as $chave => $valor) {
         if (is_array($valor)) {
-            echo $recuo . $chave . "\n";
+            echo str_repeat("  ", $nivel) . $hifens . " " . $chave . "</br>";
             exibirArvore($valor, $nivel + 1);
         } else {
-            echo $recuo . "- " . $valor . "\n";
+            echo str_repeat("  ", $nivel) . $hifens . " " . $valor . "</br>";
         }
     }
 }
