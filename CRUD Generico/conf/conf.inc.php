@@ -1,7 +1,7 @@
 <?php
 // Banco de Dados
 define('HOST', 'localhost');  
-define('DBNAME', 'vendaSimples');    
+define('DBNAME', 'globalStore');    
 define('USER', 'postgres');  // Update user if necessary
 define('PASSWORD', 'POSTGRES'); // Update with your PostgreSQL password
 
