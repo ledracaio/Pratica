@@ -1,0 +1,4 @@
+CREATE TABLE marca (
+  codigo SERIAL PRIMARY KEY,
+  descricao VARCHAR(45) DEFAULT NULL
+);

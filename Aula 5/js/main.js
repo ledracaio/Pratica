@@ -14,11 +14,13 @@ function mostra() {
     document.getElementById("plus").style.display = "inline";
     document.getElementById("buttonMais").style.display = "none";
     document.getElementById("buttonMenos").style.display = "inline";
+    document.getElementById("tipoCalculadora").textContent = "Calculadora Científica";
 }
 function apaga() {
     document.getElementById("plus").style.display = "none";
     document.getElementById("buttonMenos").style.display = "none";
     document.getElementById("buttonMais").style.display = "inline";
+    document.getElementById("tipoCalculadora").textContent = "Calculadora";
 }
 
 function valor1() {

@@ -1,29 +1,32 @@
 function totalizaNota() {
-    const table = document.getElementById("notas");
-    const tbody = table.tBodies[0];
-    const headerRow = table.tHead.rows[0];
-    const lastRow = tbody.rows[tbody.rows.length - 1];
-  
-    const totalRow = document.createElement("tr");
-    totalRow.innerHTML = "<td><b>Total</b></td>";
-  
-    for (let i = 1; i < lastRow.cells.length; i++) {
-      let sum = 0;
-      let count = 0;
-  
-      for (let row of tbody.rows) {
-        const cell = row.cells[i];
-        if (cell.textContent !== "") {
-          sum += parseFloat(cell.textContent);
-          count++;
-        }
+  if (!notaDisabled) {
+      notaDisabled = true;
+      const table = document.getElementById("notas");
+      const tbody = table.tBodies[0];
+      const headerRow = table.tHead.rows[0];
+      const lastRow = tbody.rows[tbody.rows.length - 1];
+
+      const totalRow = document.createElement("tr");
+      totalRow.style.backgroundColor = "silver";
+      totalRow.innerHTML = "<td><b>Total</b></td>";
+
+      for (let i = 1; i < lastRow.cells.length; i++) {
+          let sum = 0;
+          let count = 0;
+
+          for (let row of tbody.rows) {
+              const cell = row.cells[i];
+              if (cell.textContent !== "") {
+                  sum += parseFloat(cell.textContent);
+                  count++;
+              }
+          }
+
+          const average = sum / count;
+          totalRow.innerHTML += `<td>${average.toFixed(2)}</td>`;
       }
-  
-      const average = sum / count;
-      totalRow.innerHTML += `<td>${average.toFixed(2)}</td>`;
-    }
-  
-    tbody.appendChild(totalRow);
+
+      tbody.appendChild(totalRow);
   }
   
   function totalizaAluno() {
