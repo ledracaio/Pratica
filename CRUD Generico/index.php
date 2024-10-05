@@ -6,6 +6,9 @@ include_once "conf/config.php"; // Include the configuration file
 
 $title = "Lista de Produtos";
 $consulta = isset($_POST['consulta']) ? $_POST['consulta'] : "";
+
+$pdo = Conexao::getInstance();
+$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 ?>
 <html>
 <head>
@@ -23,7 +26,7 @@ $consulta = isset($_POST['consulta']) ? $_POST['consulta'] : "";
     <a href="cad.php"><button>Novo</button></a>
     <br><br>
     <form method="post">
-        <input type="text" name="consulta" id="consulta" value="<?php echo $consulta; ?>">
+        <input type="text" name="consulta" id="consulta" value="<?php echo htmlspecialchars($consulta); ?>">
         <input type="submit" value="Pesquisar">
     </form>
     
@@ -31,31 +34,42 @@ $consulta = isset($_POST['consulta']) ? $_POST['consulta'] : "";
     <table border="1">
        <tr>
            <?php 
-           // Fetch columns dynamically
-           $pdo = Conexao::getInstance();
-           $stmt = $pdo->query("SELECT * FROM {$tableConfig['tableName']} LIMIT 1");
-           $columns = array_keys($stmt->fetch(PDO::FETCH_ASSOC));
-           foreach ($columns as $column) {
-               echo "<td><b>" . ucfirst($column) . "</b></td>";
+           try {
+               // Fetch columns dynamically
+               $stmt = $pdo->query("SELECT * FROM {$tableConfig['tableName']} LIMIT 1");
+               if ($stmt) {
+                   $columns = array_keys($stmt->fetch(PDO::FETCH_ASSOC));
+                   foreach ($columns as $column) {
+                       echo "<td><b>" . ucfirst(htmlspecialchars($column)) . "</b></td>";
+                   }
+                   echo "<td><b>Alterar</b></td>"; 
+                   echo "<td><b>Excluir</b></td>"; 
+               } else {
+                   throw new Exception("Falha ao executar a consulta.");
+               }
+           } catch (Exception $e) {
+               echo "Erro: " . htmlspecialchars($e->getMessage());
            }
            ?>
-           <td><b>Alterar</b></td> 
-           <td><b>Excluir</b></td> 
        </tr>
     <?php 
-    $consultaColumn = $tableConfig['primaryKey']; // Replace 'interno' with a valid column name
-    $stmt = $pdo->prepare("SELECT * FROM pedido WHERE $consultaColumn::text LIKE :consulta");
-    $nome = $consulta . '%';
-    $stmt->execute([':consulta' => $nome]);
-    
-    while ($linha = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        echo "<tr>";
-        foreach ($columns as $column) {
-            echo "<td>{$linha[$column]}</td>";
+    $consultaColumn = $tableConfig['primaryKey']; 
+    try {
+        $stmt = $pdo->prepare("SELECT * FROM {$tableConfig['tableName']} WHERE $consultaColumn::text LIKE :consulta");
+        $nome = $consulta . '%';
+        $stmt->execute([':consulta' => $nome]);
+        
+        while ($linha = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            echo "<tr>";
+            foreach ($columns as $column) {
+                echo "<td>" . htmlspecialchars($linha[$column]) . "</td>";
+            }
+            echo "<td><a href='cad.php?acao=editar&codigo=" . htmlspecialchars($linha[$tableConfig['primaryKey']]) . "'>/</a></td>";
+            echo "<td><a href=\"javascript:excluirRegistro('acao.php?acao=excluir&codigo=" . htmlspecialchars($linha[$tableConfig['primaryKey']]) . "')\">X</a></td>";
+            echo "</tr>";
         }
-        echo "<td><a href='cad.php?acao=editar&codigo={$linha[$tableConfig['primaryKey']]}'>/\</a></td>";
-        echo "<td><a href=\"javascript:excluirRegistro('acao.php?acao=excluir&codigo={$linha[$tableConfig['primaryKey']]}')\">X</a></td>";
-        echo "</tr>";
+    } catch (Exception $e) {
+        echo "Erro: " . htmlspecialchars($e->getMessage());
     }
     ?>       
     </table>

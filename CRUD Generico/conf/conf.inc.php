@@ -1,9 +1,9 @@
 <?php
 // Banco de Dados
 define('HOST', 'localhost');  
-define('DBNAME', 'globalStore');    
-define('USER', 'postgres');  // Update user if necessary
-define('PASSWORD', 'POSTGRES'); // Update with your PostgreSQL password
+define('DBNAME', 'postgres');    
+define('USER', 'postgres');
+define('PASSWORD', 'postgres');
 
 define('DRIVER', 'pgsql'); 
 define('CHARSET', 'utf8');
