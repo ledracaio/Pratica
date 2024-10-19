@@ -15,11 +15,8 @@ class Pessoa {
     public function __construct() {
         $this->nome = "";
         $this->sobreNome = "";
-        $this->dataNascimento = "";
-        $this->cpfCnpj = "";
-        $this->tipo = "";
-        $this->telefone = "";
-        $this->endereco = "";
+        $this->telefone = new Contato();
+        $this->endereco = new Endereco();
     }
 
     public function setNome($nome) {

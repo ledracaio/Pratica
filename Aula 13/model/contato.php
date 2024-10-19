@@ -2,7 +2,7 @@
 
 namespace app\model;
 
-class Endereco {
+class Contato {
 
     private $tipo;
     private $nome;
