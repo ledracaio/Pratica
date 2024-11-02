@@ -10,14 +10,15 @@ use Doctrine\DBAL\Schema\SchemaException;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
+use Doctrine\Deprecations\Deprecation;
 use Doctrine\Inflector\Inflector;
 use Doctrine\Inflector\InflectorFactory;
 use Doctrine\ORM\Mapping\ClassMetadata;
+use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Doctrine\ORM\Mapping\MappingException;
 use Doctrine\Persistence\Mapping\ClassMetadata as PersistenceClassMetadata;
 use Doctrine\Persistence\Mapping\Driver\MappingDriver;
 use InvalidArgumentException;
-use TypeError;
 
 use function array_diff;
 use function array_keys;
@@ -25,17 +26,14 @@ use function array_merge;
 use function assert;
 use function count;
 use function current;
-use function get_debug_type;
+use function get_class;
 use function in_array;
 use function preg_replace;
 use function sort;
-use function sprintf;
 use function strtolower;
 
 /**
  * The DatabaseDriver reverse engineers the mapping metadata from a database.
- *
- * @deprecated No replacement planned
  *
  * @link    www.doctrine-project.org
  */
@@ -55,42 +53,63 @@ class DatabaseDriver implements MappingDriver
      */
     private const OBJECT = 'object';
 
+    /**
+     * Replacement for {@see Types::JSON_ARRAY}.
+     *
+     * To be removed as soon as support for DBAL 2 is dropped.
+     */
+    private const JSON_ARRAY = 'json_array';
+
+    /** @var AbstractSchemaManager */
+    private $sm;
+
     /** @var array<string,Table>|null */
-    private array|null $tables = null;
+    private $tables = null;
 
     /** @var array<class-string, string> */
-    private array $classToTableNames = [];
+    private $classToTableNames = [];
 
     /** @psalm-var array<string, Table> */
-    private array $manyToManyTables = [];
+    private $manyToManyTables = [];
 
     /** @var mixed[] */
-    private array $classNamesForTables = [];
+    private $classNamesForTables = [];
 
     /** @var mixed[] */
-    private array $fieldNamesForColumns = [];
+    private $fieldNamesForColumns = [];
 
     /**
      * The namespace for the generated entities.
+     *
+     * @var string|null
      */
-    private string|null $namespace = null;
+    private $namespace;
 
-    private Inflector $inflector;
+    /** @var Inflector */
+    private $inflector;
 
-    public function __construct(private readonly AbstractSchemaManager $sm)
+    public function __construct(AbstractSchemaManager $schemaManager)
     {
+        $this->sm        = $schemaManager;
         $this->inflector = InflectorFactory::create()->build();
     }
 
     /**
      * Set the namespace for the generated entities.
+     *
+     * @param string $namespace
+     *
+     * @return void
      */
-    public function setNamespace(string $namespace): void
+    public function setNamespace($namespace)
     {
         $this->namespace = $namespace;
     }
 
-    public function isTransient(string $className): bool
+    /**
+     * {@inheritDoc}
+     */
+    public function isTransient($className)
     {
         return true;
     }
@@ -98,7 +117,7 @@ class DatabaseDriver implements MappingDriver
     /**
      * {@inheritDoc}
      */
-    public function getAllClassNames(): array
+    public function getAllClassNames()
     {
         $this->reverseEngineerMappingFromDatabase();
 
@@ -107,16 +126,27 @@ class DatabaseDriver implements MappingDriver
 
     /**
      * Sets class name for a table.
+     *
+     * @param string $tableName
+     * @param string $className
+     *
+     * @return void
      */
-    public function setClassNameForTable(string $tableName, string $className): void
+    public function setClassNameForTable($tableName, $className)
     {
         $this->classNamesForTables[$tableName] = $className;
     }
 
     /**
      * Sets field name for a column on a specific table.
+     *
+     * @param string $tableName
+     * @param string $columnName
+     * @param string $fieldName
+     *
+     * @return void
      */
-    public function setFieldNameForColumn(string $tableName, string $columnName, string $fieldName): void
+    public function setFieldNameForColumn($tableName, $columnName, $fieldName)
     {
         $this->fieldNamesForColumns[$tableName][$columnName] = $fieldName;
     }
@@ -128,8 +158,10 @@ class DatabaseDriver implements MappingDriver
      * @param Table[] $manyToManyTables
      * @psalm-param list<Table> $entityTables
      * @psalm-param list<Table> $manyToManyTables
+     *
+     * @return void
      */
-    public function setTables(array $entityTables, array $manyToManyTables): void
+    public function setTables($entityTables, $manyToManyTables)
     {
         $this->tables = $this->manyToManyTables = $this->classToTableNames = [];
 
@@ -158,15 +190,17 @@ class DatabaseDriver implements MappingDriver
      *
      * @template T of object
      */
-    public function loadMetadataForClass(string $className, PersistenceClassMetadata $metadata): void
+    public function loadMetadataForClass($className, PersistenceClassMetadata $metadata)
     {
         if (! $metadata instanceof ClassMetadata) {
-            throw new TypeError(sprintf(
-                'Argument #2 passed to %s() must be an instance of %s, %s given.',
+            Deprecation::trigger(
+                'doctrine/orm',
+                'https://github.com/doctrine/orm/pull/249',
+                'Passing an instance of %s to %s is deprecated, please pass a %s instance instead.',
+                get_class($metadata),
                 __METHOD__,
-                ClassMetadata::class,
-                get_debug_type($metadata),
-            ));
+                ClassMetadata::class
+            );
         }
 
         $this->reverseEngineerMappingFromDatabase();
@@ -274,7 +308,7 @@ class DatabaseDriver implements MappingDriver
             if ($primaryKey === null) {
                 throw new MappingException(
                     'Table ' . $tableName . ' has no primary key. Doctrine does not ' .
-                    "support reverse engineering from tables that don't have a primary key.",
+                    "support reverse engineering from tables that don't have a primary key."
                 );
             }
 
@@ -299,7 +333,7 @@ class DatabaseDriver implements MappingDriver
     /**
      * Build indexes from a class metadata.
      */
-    private function buildIndexes(ClassMetadata $metadata): void
+    private function buildIndexes(ClassMetadataInfo $metadata): void
     {
         $tableName = $metadata->table['name'];
         $indexes   = $this->tables[$tableName]->getIndexes();
@@ -322,7 +356,7 @@ class DatabaseDriver implements MappingDriver
     /**
      * Build field mapping from class metadata.
      */
-    private function buildFieldMappings(ClassMetadata $metadata): void
+    private function buildFieldMappings(ClassMetadataInfo $metadata): void
     {
         $tableName      = $metadata->table['name'];
         $columns        = $this->tables[$tableName]->getColumns();
@@ -371,11 +405,11 @@ class DatabaseDriver implements MappingDriver
      *     columnName: string,
      *     type: string,
      *     nullable: bool,
-     *     options: array{
+     *     options?: array{
      *         unsigned?: bool,
      *         fixed?: bool,
-     *         comment: string|null,
-     *         default?: mixed
+     *         comment?: string,
+     *         default?: string
      *     },
      *     precision?: int,
      *     scale?: int,
@@ -389,9 +423,6 @@ class DatabaseDriver implements MappingDriver
             'columnName' => $column->getName(),
             'type'       => Type::getTypeRegistry()->lookupName($column->getType()),
             'nullable'   => ! $column->getNotnull(),
-            'options'    => [
-                'comment' => $column->getComment(),
-            ],
         ];
 
         // Type specific elements
@@ -399,6 +430,7 @@ class DatabaseDriver implements MappingDriver
             case self::ARRAY:
             case Types::BLOB:
             case Types::GUID:
+            case self::JSON_ARRAY:
             case self::OBJECT:
             case Types::SIMPLE_ARRAY:
             case Types::STRING:
@@ -420,6 +452,12 @@ class DatabaseDriver implements MappingDriver
                 break;
         }
 
+        // Comment
+        $comment = $column->getComment();
+        if ($comment !== null) {
+            $fieldMapping['options']['comment'] = $comment;
+        }
+
         // Default
         $default = $column->getDefault();
         if ($default !== null) {
@@ -431,8 +469,10 @@ class DatabaseDriver implements MappingDriver
 
     /**
      * Build to one (one to one, many to one) association mapping from class metadata.
+     *
+     * @return void
      */
-    private function buildToOneAssociationMappings(ClassMetadata $metadata): void
+    private function buildToOneAssociationMappings(ClassMetadataInfo $metadata)
     {
         assert($this->tables !== null);
 
@@ -483,7 +523,7 @@ class DatabaseDriver implements MappingDriver
     {
         try {
             return $table->getPrimaryKey()->getColumns();
-        } catch (SchemaException) {
+        } catch (SchemaException $e) {
             // Do nothing
         }
 
@@ -512,7 +552,7 @@ class DatabaseDriver implements MappingDriver
     private function getFieldNameForColumn(
         string $tableName,
         string $columnName,
-        bool $fk = false,
+        bool $fk = false
     ): string {
         if (isset($this->fieldNamesForColumns[$tableName], $this->fieldNamesForColumns[$tableName][$columnName])) {
             return $this->fieldNamesForColumns[$tableName][$columnName];

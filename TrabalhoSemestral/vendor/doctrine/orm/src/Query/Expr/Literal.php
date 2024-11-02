@@ -11,14 +11,17 @@ namespace Doctrine\ORM\Query\Expr;
  */
 class Literal extends Base
 {
-    protected string $preSeparator  = '';
-    protected string $postSeparator = '';
+    /** @var string */
+    protected $preSeparator = '';
+
+    /** @var string */
+    protected $postSeparator = '';
 
     /** @psalm-var list<string> */
-    protected array $parts = [];
+    protected $parts = [];
 
     /** @psalm-return list<string> */
-    public function getParts(): array
+    public function getParts()
     {
         return $this->parts;
     }

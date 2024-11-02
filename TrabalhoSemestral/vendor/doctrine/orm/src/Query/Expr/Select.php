@@ -11,17 +11,20 @@ namespace Doctrine\ORM\Query\Expr;
  */
 class Select extends Base
 {
-    protected string $preSeparator  = '';
-    protected string $postSeparator = '';
+    /** @var string */
+    protected $preSeparator = '';
+
+    /** @var string */
+    protected $postSeparator = '';
 
     /** @var string[] */
-    protected array $allowedClasses = [Func::class];
+    protected $allowedClasses = [Func::class];
 
     /** @psalm-var list<string|Func> */
-    protected array $parts = [];
+    protected $parts = [];
 
     /** @psalm-return list<string|Func> */
-    public function getParts(): array
+    public function getParts()
     {
         return $this->parts;
     }

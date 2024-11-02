@@ -1,12 +1,12 @@
 <?php
-require_once __DIR__ . '/../includes/db.php'; // Importa o arquivo de conexão
+require_once __DIR__ . '/../includes/db.php';
+require_once __DIR__ . '/../controllers/PerguntaController.php';
 
 use Controllers\PerguntaController;
 
 $controller = new PerguntaController();
 $perguntas = $controller->getPerguntas();
 
-// Aqui você pode processar as perguntas e exibi-las na sua view
 ?>
 
 <!DOCTYPE html>
@@ -45,7 +45,7 @@ $perguntas = $controller->getPerguntas();
                 })
                 .then(response => response.text())
                 .then(data => {
-                    document.body.innerHTML = data; // Exibe a mensagem de agradecimento
+                    document.body.innerHTML = data;
                 });
             }
         }
