@@ -17,8 +17,3 @@ $conn = [
     'driver' => 'pdo_pgsql',
 ];
 
-$entityManager = EntityManager::create($conn, $config);
-
-$configuration = new PhpFile(__DIR__ . '/migrations.php');
-$dependencyFactory = DependencyFactory::fromEntityManager($configuration, $entityManager);
-

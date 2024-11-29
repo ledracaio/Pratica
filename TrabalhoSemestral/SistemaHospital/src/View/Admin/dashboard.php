@@ -8,23 +8,24 @@
     <div class="container">
         <h1>Dashboard</h1>
         <table>
-            <thead>
-                <tr>
-                    <th>Setor</th>
-                    <th>Avaliações Recebidas</th>
-                    <th>Média de Satisfação</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($avaliacoes as $setor => $dados): ?>
-                    <tr>
-                        <td><?= htmlspecialchars($setor); ?></td>
-                        <td><?= htmlspecialchars($dados['total']); ?></td>
-                        <td><?= number_format($dados['media'], 2); ?></td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
+    <thead>
+        <tr>
+            <th>Setor</th>
+            <th>Média de Notas</th>
+            <th>Feedback Geral</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($avaliacoes as $avaliacao): ?>
+            <tr>
+                <td><?= htmlspecialchars($avaliacao['setor']); ?></td>
+                <td><?= htmlspecialchars(number_format($avaliacao['media'], 2)); ?></td>
+                <td><?= htmlspecialchars($avaliacao['feedbackGeral']); ?></td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+
     </div>
 </body>
 </html>

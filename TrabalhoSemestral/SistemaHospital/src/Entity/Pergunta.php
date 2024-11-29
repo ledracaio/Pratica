@@ -4,13 +4,15 @@ namespace Src\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Src\Repository\PerguntaRepository")
  * @ORM\Table(name="perguntas")
  */
-class Pergunta {
+class Pergunta
+{
+    // Defina os atributos e métodos da entidade aqui
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue
+     * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
      */
     private $id;
@@ -26,4 +28,23 @@ class Pergunta {
     private $ativa;
 
     // Getters e setters
+    public function getId() {
+        return $this->id;
+    }
+
+    public function getTexto() {
+        return $this->texto;
+    }
+
+    public function setTexto($texto) {
+        $this->texto = $texto;
+    }
+
+    public function isAtiva() {
+        return $this->ativa;
+    }
+
+    public function setAtiva($ativa) {
+        $this->ativa = $ativa;
+    }
 }

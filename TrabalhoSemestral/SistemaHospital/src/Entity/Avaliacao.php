@@ -2,6 +2,7 @@
 namespace Src\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity
@@ -18,51 +19,67 @@ class Avaliacao {
     /**
      * @ORM\Column(type="integer")
      */
-    private $setorId;
+    private $setor_id;
 
     /**
-     * @ORM\Column(type="json")
+     * @ORM\OneToMany(targetEntity="Resposta", mappedBy="avaliacao", cascade={"persist", "remove"})
      */
     private $respostas;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    private $feedback;
+    private $feedback_geral;
 
     /**
      * @ORM\Column(type="datetime")
      */
     private $data;
 
-    // Getters e Setters
+    public function __construct() {
+        $this->respostas = new ArrayCollection();
+    }
 
+    // Getters e setters para as novas relações e atributos
     public function getId(): ?int {
         return $this->id;
     }
 
     public function getSetorId(): ?int {
-        return $this->setorId;
+        return $this->setor_id;
     }
 
     public function setSetorId(int $setorId): void {
-        $this->setorId = $setorId;
+        $this->setor_id = $setorId;
     }
 
-    public function getRespostas(): array {
+    public function getRespostas() {
         return $this->respostas;
     }
 
-    public function setRespostas(array $respostas): void {
-        $this->respostas = $respostas;
+    public function addResposta(Resposta $resposta): void {
+        if (!$this->respostas->contains($resposta)) {
+            $this->respostas[] = $resposta;
+            $resposta->setAvaliacao($this); // Garante a bidirecionalidade
+        }
     }
 
-    public function getFeedback(): ?string {
-        return $this->feedback;
+    public function removeResposta(Resposta $resposta): void {
+        if ($this->respostas->contains($resposta)) {
+            $this->respostas->removeElement($resposta);
+            // Remove o vínculo na outra extremidade
+            if ($resposta->getAvaliacao() === $this) {
+                $resposta->setAvaliacao(null);
+            }
+        }
     }
 
-    public function setFeedback(?string $feedback): void {
-        $this->feedback = $feedback;
+    public function getFeedbackGeral(): ?string {
+        return $this->feedback_geral;
+    }
+
+    public function setFeedbackGeral(?string $feedbackGeral): void {
+        $this->feedback_geral = $feedbackGeral;
     }
 
     public function getData(): ?\DateTime {
