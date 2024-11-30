@@ -15,6 +15,9 @@ function verificarSessao() {
         header('Location: /admin/login');
         exit;
     }
+    else {
+        return true;
+    }
     
 }
 
@@ -30,7 +33,7 @@ $method = $_SERVER['REQUEST_METHOD'];
             $avaliacaoController->salvarAvaliacao();
         }
 } elseif (strpos($url, '/admin') === 0) {
-
+    
 
     $adminController = new AdminController();
     $perguntaController = new PerguntaController();

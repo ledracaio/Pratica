@@ -2,7 +2,7 @@
 $title = 'Login Administrativo';
 ob_start();
 ?>
-<h1 class="text-center">Login Administrativo</h1>
+<h1 class="text-center">Admin HRAV</h1>
 <form method="POST" action="/admin/login" class="needs-validation mx-auto" style="max-width: 400px;" novalidate>
     <div class="mb-3">
         <label for="login" class="form-label">Login:</label>
