@@ -58,7 +58,6 @@ $method = $_SERVER['REQUEST_METHOD'];
         // Exibe o formulário de adição de pergunta
         $perguntaController->exibirFormularioAdicionar();
     }
-    
     elseif (preg_match('/^\/admin\/perguntas\/editar\/(\d+)$/', $url, $matches)) {
         $perguntaController->editarPergunta($matches[1]);
     } elseif (preg_match('/^\/admin\/perguntas\/deletar\/(\d+)$/', $url, $matches)) {
@@ -79,6 +78,7 @@ $method = $_SERVER['REQUEST_METHOD'];
         $setorController->exibirFormularioAdicionar();
     } 
 
+    //Avaliações Registradas
     elseif ($url === '/admin/avaliacoes' && $method === 'GET') {
         $avaliacaoController = new AvaliacaoController();
         $avaliacaoController->listarAvaliacoes();  // Chama o método para listar as avaliações
