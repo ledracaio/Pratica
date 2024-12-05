@@ -12,7 +12,6 @@ ob_start();
 </div>
 
 <div class="mt-4">
-    <h3>Média das Notas por Pergunta</h3>
     <canvas id="mediaNotasChart" width="400" height="200"></canvas>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
@@ -57,14 +56,6 @@ ob_start();
                 responsive: true,
                 indexAxis: 'y',
                 plugins: {
-                    title: {
-                        display: true,
-                        text: 'Média das Notas por Pergunta',
-                        font: {
-                            size: 20,
-                            weight: 'bold'
-                        }
-                    },
                     tooltip: {
                         callbacks: {
                             label: function(tooltipItem) {
