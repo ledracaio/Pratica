@@ -40,18 +40,20 @@ class DispositivoController {
             $dados = [
                 'id' => $id,
                 'nome' => $_POST['nome'],
-                'status' => $_POST['status'] ?? 0
+                'status' => isset($_POST['status']) && $_POST['status'] == "1" ? 1 : 0,
             ];
-
+    
             // Atualiza o dispositivo no banco de dados
             $dispositivo->atualizar($dados);
             header('Location: /admin/dispositivos');
+            exit;
         } else {
             // Exibe o formulário de edição com os dados atuais
-            $dispositivoAtual = $dispositivo->listarDispositivoPorId($id);
+            $dispositivoEdit = $dispositivo->listarDispositivoPorId($id);
             include '../views/admin/editar_dispositivo.php';
         }
     }
+    
 
     public function excluirDispositivo($id) {
         // Verifica se o ID é válido

@@ -41,18 +41,20 @@ class PerguntaController {
             $dados = [
                 'id' => $id,
                 'texto' => $_POST['texto'],
-                'status' => $_POST['status'] ?? 0 // Captura o novo status
+                'status' => isset($_POST['status']) && $_POST['status'] == "1" ? 1 : 0,
             ];
-
+    
             // Atualiza a pergunta no banco de dados
             $pergunta->atualizar($dados);
             header('Location: /admin/perguntas');
+            exit;
         } else {
             // Exibe o formulário de edição com os dados atuais
             $perguntaEdit = $pergunta->listarPerguntaPorId($id);
             include '../views/admin/editar_pergunta.php';
         }
     }
+    
 
     
 

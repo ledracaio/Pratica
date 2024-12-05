@@ -19,7 +19,7 @@ class Pergunta {
 
     // Listar Perguntas
     public function listarTodos() {
-        $query = "SELECT id, texto, status FROM perguntas";
+        $query = "SELECT id, texto, status FROM perguntas ORDER BY id";
         $stmt = $this->db->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -36,11 +36,13 @@ class Pergunta {
 
     // Atualizar Pergunta
     public function atualizar($dados) {
-        // Atualiza a pergunta no banco de dados, incluindo o novo status
-        $query = $this->db->prepare("UPDATE perguntas SET texto = :texto, status = :status WHERE id = :id");
-        $query->execute($dados);
+        $query = "UPDATE perguntas SET texto = :texto, status = :status WHERE id = :id";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':texto', $dados['texto']);
+        $stmt->bindParam(':status', $dados['status'], PDO::PARAM_BOOL); // Certifique-se de usar PDO::PARAM_BOOL para valores booleanos
+        $stmt->bindParam(':id', $dados['id'], PDO::PARAM_INT);
+        $stmt->execute();
     }
-    
 
     // Excluir Pergunta
     public function excluir($id) {

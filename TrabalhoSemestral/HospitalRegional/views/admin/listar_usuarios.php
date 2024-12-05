@@ -1,5 +1,5 @@
 <?php 
-$title = 'Gerenciar Setores';
+$title = 'Gerenciar Usuários';
 ob_start();
 ?>
 <div class="d-flex justify-content-between align-items-center mb-3">
@@ -7,8 +7,8 @@ ob_start();
         <span class="material-icons me-2">arrow_back</span> Voltar
     </a>
     <h1 class="mb-0"><?= $title; ?></h1>
-    <a href="/admin/setores/adicionar" class="d-flex align-items-center btn btn-primary">
-        <span class="material-icons me-2">add</span> Adicionar Setor
+    <a href="/admin/usuarios/adicionar" class="d-flex align-items-center btn btn-primary">
+        <span class="material-icons me-2">add</span> Adicionar Usuário
     </a>
 </div>
 
@@ -16,20 +16,17 @@ ob_start();
     <thead>
         <tr>
             <th>ID</th>
-            <th>Nome</th>
+            <th>Login</th>
             <th>Ações</th>
         </tr>
     </thead>
     <tbody>
-        <?php foreach ($setores as $setor): ?>
+        <?php foreach ($usuarios as $usuario): ?>
             <tr>
-                <td><?= $setor['id']; ?></td>
-                <td><?= $setor['nome']; ?></td>
+                <td><?= $usuario['id']; ?></td>
+                <td><?= $usuario['login']; ?></td>
                 <td>
-                    <a href="/admin/setores/editar/<?= $setor['id']; ?>" class="btn btn-warning btn-sm">
-                        <span class="d-flex material-icons">edit</span>
-                    </a>
-                    <a href="/admin/setores/deletar/<?= $setor['id']; ?>" class="btn btn-danger btn-sm">
+                    <a href="/admin/usuarios/deletar/<?= $usuario['id']; ?>" class="btn btn-danger btn-sm">
                         <span class="d-flex material-icons">delete</span>
                     </a>
                 </td>

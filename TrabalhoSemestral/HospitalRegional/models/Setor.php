@@ -18,7 +18,7 @@ class Setor {
 
     // Listar Setores
     public function listarTodos() {
-        $query = "SELECT id, nome FROM setores";
+        $query = "SELECT id, nome FROM setores ORDER BY id";
         $stmt = $this->db->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);

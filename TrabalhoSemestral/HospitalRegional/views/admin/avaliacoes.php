@@ -3,9 +3,13 @@ $title = 'Consulta de Avaliações';
 ob_start();
 ?>
 
-<h1 class="mb-4 text-center"><?= $title; ?></h1>
-
-<!-- Tabela de Avaliações -->
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <a href="/admin" class="d-flex align-items-center btn btn-outline-secondary me-2">
+        <span class="material-icons me-2">arrow_back</span> Voltar
+    </a>
+    <h1 class="mb-0"><?= $title; ?></h1>
+    <span></span>
+</div>
 <div class="table-responsive">
     <table class="table table-bordered table-striped">
         <thead>
